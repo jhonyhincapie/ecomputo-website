@@ -35,10 +35,10 @@ export default async function ProductosPage({ searchParams }: Props) {
   else products.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-10 bg-navy min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-navy">Catálogo de Productos</h1>
-        <p className="text-gray-500 mt-1">Encuentra el equipo perfecto para ti</p>
+        <h1 className="text-3xl font-bold text-white">Catálogo de Productos</h1>
+        <p className="text-gray-400 mt-1">Encuentra el equipo perfecto para ti</p>
       </div>
 
       <div className="flex gap-8">
@@ -49,7 +49,7 @@ export default async function ProductosPage({ searchParams }: Props) {
         </div>
 
         <div className="flex-1">
-          <p className="text-gray-500 text-sm mb-5">
+          <p className="text-gray-400 text-sm mb-5">
             {products.length} {products.length === 1 ? 'producto' : 'productos'} encontrados
           </p>
           {products.length > 0 ? (
@@ -59,7 +59,7 @@ export default async function ProductosPage({ searchParams }: Props) {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 text-gray-400">
+            <div className="text-center py-20 text-gray-500">
               <div className="text-6xl mb-4">🔍</div>
               <p className="text-lg">No hay productos en esta categoría.</p>
               <p className="text-sm mt-1">Intenta con otra búsqueda o categoría.</p>

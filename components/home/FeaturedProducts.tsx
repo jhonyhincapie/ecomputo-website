@@ -13,14 +13,14 @@ export async function FeaturedProducts() {
     .limit(8)
 
   return (
-    <section className="bg-gray-50 py-16 px-4">
+    <section className="bg-navy-deep py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-navy">Productos Destacados</h2>
-            <p className="text-gray-500 mt-1">Los más populares de nuestra tienda</p>
+            <h2 className="text-3xl font-bold text-white">Productos Destacados</h2>
+            <p className="text-gray-400 mt-1">Los más populares de nuestra tienda</p>
           </div>
-          <Link href="/productos" className="text-gold hover:underline font-semibold hidden sm:block">
+          <Link href="/productos" className="text-accent-light hover:underline font-semibold hidden sm:block">
             Ver todos →
           </Link>
         </div>
@@ -32,10 +32,10 @@ export async function FeaturedProducts() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 text-gray-400">
+          <div className="text-center py-16 text-gray-500">
             <div className="text-6xl mb-4">🖥️</div>
             <p>Pronto agregaremos productos destacados.</p>
-            <Link href="/productos" className="mt-4 inline-block text-gold hover:underline">
+            <Link href="/productos" className="mt-4 inline-block text-accent-light hover:underline">
               Ver catálogo completo →
             </Link>
           </div>

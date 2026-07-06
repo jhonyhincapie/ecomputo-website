@@ -190,7 +190,7 @@ export function ProductForm({ categories, product }: Props) {
             type="checkbox"
             checked={form.is_featured}
             onChange={e => setForm({ ...form, is_featured: e.target.checked })}
-            className="accent-gold w-4 h-4"
+            className="accent-accent w-4 h-4"
           />
           <span className="text-sm font-medium text-gray-700">⭐ Producto destacado (aparece en homepage)</span>
         </label>

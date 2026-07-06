@@ -85,7 +85,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
             </p>
             <button
               onClick={handleClose}
-              className="mt-6 bg-navy text-white px-6 py-2 rounded-lg font-medium hover:bg-navy-light transition-colors"
+              className="mt-6 bg-accent text-white px-6 py-2 rounded-lg font-medium hover:bg-accent-dark transition-colors"
             >
               Cerrar
             </button>
@@ -140,7 +140,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
                       value={ch}
                       checked={channel === ch}
                       onChange={() => setChannel(ch)}
-                      className="accent-navy"
+                      className="accent-accent"
                     />
                     <span className="text-sm">
                       {ch === 'email' ? '📧 Email' : '💬 WhatsApp'}
@@ -153,7 +153,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-navy hover:bg-navy-light text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-60"
+              className="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-60"
             >
               {loading ? 'Enviando...' : 'Enviar solicitud'}
             </button>

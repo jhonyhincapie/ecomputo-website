@@ -11,11 +11,13 @@ export async function WhatsAppBanner() {
   const msg = encodeURIComponent('Hola! Quiero información sobre sus productos.')
 
   return (
-    <section className="bg-navy py-16 px-4 text-center text-white">
+    <section className="bg-navy-deep py-16 px-4 text-center text-white border-t border-navy-light">
       <div className="max-w-2xl mx-auto">
-        <div className="text-5xl mb-4">💬</div>
+        <span className="inline-flex items-center gap-2 bg-navy-light border border-border-subtle text-accent-light text-xs font-semibold px-3.5 py-1.5 rounded-full mb-6">
+          ● Asesoría en tiempo real
+        </span>
         <h2 className="text-3xl font-bold mb-4">¿Necesitas asesoría personalizada?</h2>
-        <p className="text-gray-300 mb-8 text-lg">
+        <p className="text-gray-400 mb-8 text-lg">
           Chatea con nosotros por WhatsApp y te ayudamos a elegir el mejor equipo para tus necesidades
         </p>
         {number ? (
@@ -23,12 +25,12 @@ export async function WhatsAppBanner() {
             href={`https://wa.me/${number}?text=${msg}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg"
+            className="inline-block bg-accent hover:bg-accent-dark text-white font-bold px-8 py-4 rounded-lg text-lg transition-colors"
           >
-            💬 Chatear por WhatsApp
+            Chatear por WhatsApp
           </a>
         ) : (
-          <p className="text-gray-400 text-sm">Configura el número de WhatsApp en el panel admin.</p>
+          <p className="text-gray-500 text-sm">Configura el número de WhatsApp en el panel admin.</p>
         )}
       </div>
     </section>

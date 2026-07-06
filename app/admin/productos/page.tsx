@@ -59,7 +59,7 @@ export default async function AdminProductosPage() {
                   <td className="px-4 py-3 text-gray-500">
                     {p.category ? `${p.category.icon} ${p.category.name}` : '—'}
                   </td>
-                  <td className="px-4 py-3 text-gold font-semibold">{formatCOP(p.price)}</td>
+                  <td className="px-4 py-3 text-accent font-semibold">{formatCOP(p.price)}</td>
                   <td className="px-4 py-3">{p.is_featured ? '⭐' : '—'}</td>
                   <td className="px-4 py-3">
                     <span

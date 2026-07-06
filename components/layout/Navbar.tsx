@@ -18,7 +18,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <Image src="/logo.png" alt="ECOMPUTO" width={40} height={40} className="object-contain" />
-          <span className="text-white font-bold text-lg hidden sm:block">ECOMPUTO</span>
+          <span className="text-white font-bold text-lg hidden sm:block font-heading">ECOMPUTO</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -26,7 +26,7 @@ export function Navbar() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-gray-300 hover:text-gold transition-colors text-sm font-medium"
+              className="text-gray-300 hover:text-accent-light transition-colors text-sm font-medium"
             >
               {l.label}
             </Link>
@@ -36,7 +36,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/productos"
-            className="bg-gold hover:bg-gold-dark text-navy font-bold px-4 py-2 rounded-lg text-sm transition-colors hidden sm:block"
+            className="bg-accent hover:bg-accent-dark text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors hidden sm:block"
           >
             Ver catálogo
           </Link>
@@ -56,7 +56,7 @@ export function Navbar() {
             <Link
               key={l.href}
               href={l.href}
-              className="block px-4 py-3 text-gray-300 hover:text-gold border-b border-navy"
+              className="block px-4 py-3 text-gray-300 hover:text-accent-light border-b border-navy"
               onClick={() => setOpen(false)}
             >
               {l.label}
@@ -65,7 +65,7 @@ export function Navbar() {
           <div className="px-4 py-3">
             <Link
               href="/productos"
-              className="block w-full text-center bg-gold hover:bg-gold-dark text-navy font-bold py-2 rounded-lg text-sm"
+              className="block w-full text-center bg-accent hover:bg-accent-dark text-white font-bold py-2 rounded-lg text-sm"
               onClick={() => setOpen(false)}
             >
               Ver catálogo
