@@ -15,13 +15,17 @@ function formatDate(s: string) {
   })
 }
 
+function weekAgoISOString() {
+  return new Date(Date.now() - 7 * 86400000).toISOString()
+}
+
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
   if (!session) redirect('/admin')
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
+  const weekAgo = weekAgoISOString()
 
   const [{ count: totalProducts }, { count: todayCount }, { count: weekCount }, { data: recent }] =
     await Promise.all([

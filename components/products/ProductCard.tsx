@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
+import { daysSince } from '@/lib/utils'
 import type { Product } from '@/types'
 
 function formatCOP(n: number) {
@@ -16,10 +17,7 @@ interface Props {
 }
 
 export function ProductCard({ product }: Props) {
-  const daysSince = Math.floor(
-    (Date.now() - new Date(product.created_at).getTime()) / 86400000
-  )
-  const isNew = daysSince < 15
+  const isNew = daysSince(product.created_at) < 15
 
   return (
     <div className="bg-navy-light/40 rounded-xl border border-border-subtle overflow-hidden hover:border-accent transition-colors group">
