@@ -28,7 +28,7 @@ export function ProductDetailClient({
     <div className="max-w-5xl mx-auto px-4 py-10 bg-navy">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Image */}
-        <div className="relative h-80 bg-navy-light/30 rounded-2xl overflow-hidden border border-border-subtle">
+        <div className="card-tech relative h-80 rounded-2xl overflow-hidden">
           {product.image_url ? (
             <Image
               src={product.image_url}
@@ -63,7 +63,7 @@ export function ProductDetailClient({
           <div className="flex gap-3 mt-8">
             <button
               onClick={() => setModalOpen(true)}
-              className="flex-1 bg-accent hover:bg-accent-dark text-white font-bold py-3 rounded-lg transition-colors"
+              className="btn-electric flex-1 text-white font-bold py-3 rounded-lg cursor-pointer"
             >
               Cotizar este producto
             </button>
@@ -72,7 +72,7 @@ export function ProductDetailClient({
                 href={`https://wa.me/${waNumber}?text=${waMsg}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-border-subtle hover:border-accent text-white px-4 py-3 rounded-lg transition-colors flex items-center"
+                className="btn-ghost-tech text-white px-4 py-3 rounded-lg flex items-center"
                 aria-label="Consultar por WhatsApp"
               >
                 <MessageCircle size={20} strokeWidth={1.75} />

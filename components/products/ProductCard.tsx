@@ -21,8 +21,8 @@ export function ProductCard({ product }: Props) {
   const isNew = daysSince(product.created_at) < 15
 
   return (
-    <div className="bg-navy-light/40 rounded-xl border border-border-subtle overflow-hidden hover:border-accent transition-colors group">
-      <Link href={`/producto/${product.slug}`} className="block relative h-48 bg-navy">
+    <div className="card-tech rounded-xl overflow-hidden group">
+      <Link href={`/producto/${product.slug}`} className="block relative h-48 bg-navy-deep">
         {product.image_url ? (
           <Image
             src={product.image_url}
@@ -52,7 +52,7 @@ export function ProductCard({ product }: Props) {
         </p>
         <Link
           href={`/producto/${product.slug}`}
-          className="mt-3 block w-full text-center bg-accent hover:bg-accent-dark text-white text-sm font-medium py-2 rounded-lg transition-colors"
+          className="btn-electric mt-3 block w-full text-center text-white text-sm font-medium py-2 rounded-lg"
         >
           Cotizar
         </Link>

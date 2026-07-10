@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 const categories = [
   { label: 'Computadores', slug: 'computadores' },
@@ -13,14 +12,15 @@ export function Footer() {
   const city = process.env.NEXT_PUBLIC_SITE_CITY || ''
 
   return (
-    <footer className="bg-navy border-t border-navy-light text-gray-400">
+    <footer className="bg-navy-deep text-[#7c8db0]">
+      <div className="divider-glow" />
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <Image src="/logo.png" alt="ECOMPUTO" width={36} height={36} className="object-contain" />
-            <span className="text-white font-bold">ECOMPUTO</span>
-          </div>
-          <p className="text-sm leading-relaxed max-w-[32ch]">
+          <span className="font-heading font-extrabold text-xl tracking-tight select-none">
+            <span className="text-accent-light">e</span>
+            <span className="text-chrome">COMPUTO</span>
+          </span>
+          <p className="text-sm leading-relaxed max-w-[32ch] mt-4">
             Computadores, portátiles, celulares y accesorios con garantía y soporte técnico en Medellín.
           </p>
           {city && <p className="text-sm mt-1">{city}</p>}
@@ -43,13 +43,13 @@ export function Footer() {
           <h3 className="text-white font-semibold mb-3">Contacto</h3>
           {phone && <p className="text-sm">{phone}</p>}
           {city && <p className="text-sm mt-1">{city}</p>}
-          <Link href="/admin" className="text-xs text-gray-600 hover:text-gray-400 mt-6 block">
+          <Link href="/admin" className="text-xs text-[#4d5c7c] hover:text-[#7c8db0] mt-6 block">
             Admin
           </Link>
         </div>
       </div>
 
-      <div className="border-t border-navy-light text-center py-4 text-xs">
+      <div className="border-t border-border-subtle/50 text-center py-4 text-xs">
         © {new Date().getFullYear()} Comercializadora ECOMPUTO. Todos los derechos reservados.
       </div>
     </footer>

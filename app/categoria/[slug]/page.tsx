@@ -32,14 +32,16 @@ export default async function CategoryPage({ params }: Props) {
         {(() => {
           const Icon = iconForSlug(slug)
           return (
-            <div className="w-14 h-14 rounded-xl bg-navy-light border border-border-subtle flex items-center justify-center shrink-0">
+            <div className="w-14 h-14 rounded-xl bg-navy-light border border-accent/25 flex items-center justify-center shrink-0 shadow-[0_0_16px_-6px_rgba(56,189,248,0.4)]">
               <Icon size={26} className="text-accent-light" strokeWidth={1.75} />
             </div>
           )
         })()}
         <div>
-          <h1 className="text-3xl font-bold text-white">{(category as Category).name}</h1>
-          <p className="text-gray-400 mt-1">
+          <h1 className="text-3xl md:text-4xl font-bold">
+            <span className="text-chrome">{(category as Category).name}</span>
+          </h1>
+          <p className="text-[#9fb1d1] mt-1">
             {products?.length || 0} productos disponibles
           </p>
         </div>

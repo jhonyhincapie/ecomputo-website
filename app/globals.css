@@ -1,16 +1,22 @@
 @import "tailwindcss";
 
+/* ============================================================
+   ECOMPUTO "Electric Tech" design system
+   Palette extracted from brand logo: deep navy field, electric
+   blue, cyan glow, chrome/silver display text, circuit motifs.
+   ============================================================ */
+
 @theme {
-  --color-navy: #0f172a;
-  --color-navy-light: #334155;
-  --color-navy-deep: #0b1220;
-  --color-accent: #0369a1;
-  --color-accent-dark: #025b8a;
-  --color-accent-light: #38bdf8;
-  --color-border-subtle: #334155;
-  --color-card: #1e293b;
+  --color-navy: #071022;          /* page background (logo field) */
+  --color-navy-light: #122142;    /* raised surfaces */
+  --color-navy-deep: #040a18;     /* recessed sections */
+  --color-accent: #1e88ff;        /* electric blue (logo "e") */
+  --color-accent-dark: #1668cc;
+  --color-accent-light: #38bdf8;  /* cyan glow */
+  --color-border-subtle: #1b2d52;
+  --color-card: #0c1a33;
   --color-card-foreground: #e2e8f0;
-  --color-muted-foreground: #64748b;
+  --color-muted-foreground: #7c8db0;
 }
 
 /* next/font sets --font-heading / --font-body via the .variable class on <html>;
@@ -31,8 +37,10 @@ html {
 }
 
 :root {
-  --background: #0f172a;
+  --background: #071022;
   --foreground: #e2e8f0;
+  --glow-cyan: rgba(56, 189, 248, 0.35);
+  --glow-blue: rgba(30, 136, 255, 0.4);
 }
 
 body {
@@ -46,12 +54,104 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #1e293b; }
-::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #0369a1; }
+::-webkit-scrollbar-track { background: #0c1a33; }
+::-webkit-scrollbar-thumb { background: #1b2d52; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #1e88ff; }
 
 /* Selection */
-::selection { background: #0369a1; color: #ffffff; }
+::selection { background: #1e88ff; color: #ffffff; }
+
+/* ---------- Brand utilities ---------- */
+
+/* Chrome/silver gradient display text (logo "COMPUTO" treatment) */
+.text-chrome {
+  background: linear-gradient(180deg, #ffffff 0%, #dbe4f0 45%, #8fa3c4 55%, #e8eef7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Electric accent text with subtle glow */
+.text-accent-glow {
+  color: var(--color-accent-light);
+  text-shadow: 0 0 24px var(--glow-cyan);
+}
+
+/* Primary CTA: electric gradient + glow */
+.btn-electric {
+  background: linear-gradient(135deg, #1e88ff 0%, #38bdf8 100%);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4), 0 8px 32px -8px var(--glow-blue);
+  transition: box-shadow 0.25s ease, transform 0.15s ease, filter 0.25s ease;
+}
+.btn-electric:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7), 0 10px 40px -6px var(--glow-cyan);
+}
+.btn-electric:active {
+  transform: scale(0.98);
+}
+
+/* Secondary CTA: outlined, lights up on hover */
+.btn-ghost-tech {
+  border: 1px solid var(--color-border-subtle);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+.btn-ghost-tech:hover {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 24px -6px var(--glow-cyan);
+}
+.btn-ghost-tech:active {
+  transform: scale(0.98);
+}
+
+/* Tech card: raised glass surface with glowing hover edge */
+.card-tech {
+  background: linear-gradient(180deg, rgba(18, 33, 66, 0.75) 0%, rgba(12, 26, 51, 0.9) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.card-tech:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 32px -8px var(--glow-cyan);
+  transform: translateY(-2px);
+}
+
+/* Circuit dot-grid backdrop (logo corner motif), pure CSS, no repaints */
+.circuit-grid {
+  background-image: radial-gradient(rgba(56, 189, 248, 0.14) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 75%);
+}
+
+/* Radial spotlight behind hero content */
+.hero-spotlight {
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 20%, rgba(30, 136, 255, 0.16), transparent 65%),
+    radial-gradient(ellipse 50% 45% at 75% 65%, rgba(56, 189, 248, 0.08), transparent 60%);
+}
+
+/* Thin glowing divider line (logo frame motif) */
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent);
+}
+
+/* Legacy alias kept for compatibility */
+.cat-card {
+  background: linear-gradient(180deg, rgba(18, 33, 66, 0.75) 0%, rgba(12, 26, 51, 0.9) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.cat-card:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 32px -8px var(--glow-cyan);
+  transform: translateY(-2px);
+}
+
+.text-accent-highlight {
+  color: var(--color-accent-light);
+}
 
 /* Keyframe animations */
 @keyframes fadeInUp {
@@ -72,6 +172,10 @@ h1, h2, h3, h4, h5, h6 {
   .animate-pulse-green {
     animation: none;
   }
+  .card-tech:hover,
+  .cat-card:hover {
+    transform: none;
+  }
 }
 
 /* Delay utilities */
@@ -79,18 +183,3 @@ h1, h2, h3, h4, h5, h6 {
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
-
-/* Accent heading highlight (word emphasis inside titles) */
-.text-accent-highlight {
-  color: var(--color-accent-light);
-}
-
-/* Product/category card - flat, no glass/blur (Corporate Trust style) */
-.cat-card {
-  background: var(--color-navy-light);
-  border: 1px solid var(--color-border-subtle);
-  transition: border-color 0.2s ease;
-}
-.cat-card:hover {
-  border-color: var(--color-accent);
-}

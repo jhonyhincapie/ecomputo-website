@@ -38,8 +38,10 @@ export default async function ProductosPage({ searchParams }: Props) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 bg-navy min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">Catálogo de Productos</h1>
-        <p className="text-gray-400 mt-1">Encuentra el equipo perfecto para ti</p>
+        <h1 className="text-3xl md:text-4xl font-bold">
+          <span className="text-chrome">Catálogo de Productos</span>
+        </h1>
+        <p className="text-[#9fb1d1] mt-1">Encuentra el equipo perfecto para ti</p>
       </div>
 
       <details className="md:hidden mb-6 rounded-xl border border-border-subtle bg-navy-light/20 open:pb-4">

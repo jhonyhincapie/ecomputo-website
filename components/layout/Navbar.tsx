@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
@@ -11,14 +10,23 @@ const links = [
   { href: '/categoria/accesorios', label: 'Accesorios' },
 ]
 
+/* Wordmark reproduces the logo type treatment: electric "e" + chrome "COMPUTO" */
+function Wordmark() {
+  return (
+    <span className="font-heading font-extrabold text-xl tracking-tight leading-none select-none">
+      <span className="text-accent-light">e</span>
+      <span className="text-chrome">COMPUTO</span>
+    </span>
+  )
+}
+
 export function Navbar() {
   const [open, setOpen] = useState(false)
   return (
-    <header className="bg-navy sticky top-0 z-50 border-b border-navy-light">
+    <header className="sticky top-0 z-50 bg-navy/80 backdrop-blur-md border-b border-accent/15">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo.png" alt="ECOMPUTO" width={40} height={40} className="object-contain" />
-          <span className="text-white font-bold text-lg hidden sm:block font-heading">ECOMPUTO</span>
+        <Link href="/" className="flex items-center" aria-label="ECOMPUTO - Inicio">
+          <Wordmark />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -26,7 +34,7 @@ export function Navbar() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-gray-300 hover:text-accent-light transition-colors text-sm font-medium"
+              className="text-[#9fb1d1] hover:text-accent-light transition-colors text-sm font-medium"
             >
               {l.label}
             </Link>
@@ -36,7 +44,7 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/productos"
-            className="bg-accent hover:bg-accent-dark text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors hidden sm:block"
+            className="btn-electric text-white font-bold px-4 py-2 rounded-lg text-sm hidden sm:block"
           >
             Ver catálogo
           </Link>
@@ -51,12 +59,12 @@ export function Navbar() {
       </div>
 
       {open && (
-        <div className="md:hidden bg-navy-light border-t border-navy">
+        <div className="md:hidden bg-navy-deep/95 backdrop-blur-md border-t border-accent/15">
           {links.map(l => (
             <Link
               key={l.href}
               href={l.href}
-              className="block px-4 py-3 text-gray-300 hover:text-accent-light border-b border-navy"
+              className="block px-4 py-3 text-[#9fb1d1] hover:text-accent-light border-b border-border-subtle/50"
               onClick={() => setOpen(false)}
             >
               {l.label}
@@ -65,7 +73,7 @@ export function Navbar() {
           <div className="px-4 py-3">
             <Link
               href="/productos"
-              className="block w-full text-center bg-accent hover:bg-accent-dark text-white font-bold py-2 rounded-lg text-sm"
+              className="btn-electric block w-full text-center text-white font-bold py-2 rounded-lg text-sm"
               onClick={() => setOpen(false)}
             >
               Ver catálogo

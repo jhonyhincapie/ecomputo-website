@@ -18,8 +18,10 @@ export async function FeaturedProducts() {
       <div className="max-w-7xl mx-auto">
         <Reveal className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-white">Productos Destacados</h2>
-            <p className="text-gray-400 mt-1">Los más populares de nuestra tienda</p>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              <span className="text-chrome">Productos Destacados</span>
+            </h2>
+            <p className="text-[#9fb1d1] mt-1">Los más populares de nuestra tienda</p>
           </div>
           <Link href="/productos" className="text-accent-light hover:underline font-semibold hidden sm:block">
             Ver todos →
