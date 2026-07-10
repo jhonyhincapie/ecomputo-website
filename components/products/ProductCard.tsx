@@ -36,7 +36,7 @@ export function ProductCard({ product }: Props) {
           </div>
         )}
         {isNew && (
-          <Badge className="absolute top-2 left-2 bg-blue-600 text-white">NUEVO</Badge>
+          <Badge className="absolute top-2 left-2 bg-gradient-to-r from-accent to-accent-light text-white shadow-[0_0_12px_-2px_rgba(56,189,248,0.6)]">NUEVO</Badge>
         )}
         {product.is_featured && !isNew && (
           <Badge className="absolute top-2 left-2 bg-accent text-white">HOT</Badge>

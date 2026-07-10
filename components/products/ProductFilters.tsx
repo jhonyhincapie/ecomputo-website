@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import type { Category } from '@/types'
 
 interface Props {
@@ -25,6 +25,19 @@ export function ProductFilters({ categories, currentSlug }: Props) {
     [params, pathname, router]
   )
 
+  // Debounce free-text search so we don't navigate on every keystroke
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const updateSearch = useCallback(
+    (value: string) => {
+      if (searchTimer.current) clearTimeout(searchTimer.current)
+      searchTimer.current = setTimeout(() => update('q', value), 350)
+    },
+    [update]
+  )
+  useEffect(() => () => {
+    if (searchTimer.current) clearTimeout(searchTimer.current)
+  }, [])
+
   return (
     <aside className="space-y-6">
       <div>
@@ -32,8 +45,8 @@ export function ProductFilters({ categories, currentSlug }: Props) {
         <Input
           placeholder="Nombre del producto..."
           defaultValue={params.get('q') || ''}
-          onChange={e => update('q', e.target.value)}
-          className="bg-navy-light/40 border-border-subtle text-white placeholder:text-gray-500"
+          onChange={e => updateSearch(e.target.value)}
+          className="bg-navy-deep/70 border-border-subtle text-white placeholder:text-[#5a6b8f] focus:ring-accent"
         />
       </div>
 
@@ -65,7 +78,7 @@ export function ProductFilters({ categories, currentSlug }: Props) {
         <select
           onChange={e => update('sort', e.target.value)}
           defaultValue={params.get('sort') || ''}
-          className="w-full bg-navy-light/40 border border-border-subtle rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-accent"
+          className="w-full bg-navy-deep/70 border border-border-subtle rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
         >
           <option value="">Más recientes</option>
           <option value="price_asc">Precio: menor a mayor</option>
