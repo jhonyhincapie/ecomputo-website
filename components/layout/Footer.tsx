@@ -20,7 +20,9 @@ export function Footer() {
             <Image src="/logo.png" alt="ECOMPUTO" width={36} height={36} className="object-contain" />
             <span className="text-white font-bold">ECOMPUTO</span>
           </div>
-          <p className="text-sm">TECNOLOGÍA • SOLUCIONES • FUTURO</p>
+          <p className="text-sm leading-relaxed max-w-[32ch]">
+            Computadores, portátiles, celulares y accesorios con garantía y soporte técnico en Medellín.
+          </p>
           {city && <p className="text-sm mt-1">{city}</p>}
         </div>
 

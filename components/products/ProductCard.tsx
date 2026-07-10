@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { Monitor } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { daysSince } from '@/lib/utils'
 import type { Product } from '@/types'
@@ -30,8 +31,8 @@ export function ProductCard({ product }: Props) {
             className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-5xl select-none">
-            {product.category?.icon || '🖥️'}
+          <div className="flex items-center justify-center h-full">
+            <Monitor size={40} className="text-navy-light" strokeWidth={1.5} />
           </div>
         )}
         {isNew && (

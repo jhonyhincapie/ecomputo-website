@@ -33,7 +33,6 @@ export async function FeaturedProducts() {
           </div>
         ) : (
           <div className="text-center py-16 text-gray-500">
-            <div className="text-6xl mb-4">🖥️</div>
             <p>Pronto agregaremos productos destacados.</p>
             <Link href="/productos" className="mt-4 inline-block text-accent-light hover:underline">
               Ver catálogo completo →

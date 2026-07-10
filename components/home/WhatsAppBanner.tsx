@@ -13,9 +13,6 @@ export async function WhatsAppBanner() {
   return (
     <section className="bg-navy-deep py-16 px-4 text-center text-white border-t border-navy-light">
       <div className="max-w-2xl mx-auto">
-        <span className="inline-flex items-center gap-2 bg-navy-light border border-border-subtle text-accent-light text-xs font-semibold px-3.5 py-1.5 rounded-full mb-6">
-          ● Asesoría en tiempo real
-        </span>
         <h2 className="text-3xl font-bold mb-4">¿Necesitas asesoría personalizada?</h2>
         <p className="text-gray-400 mb-8 text-lg">
           Chatea con nosotros por WhatsApp y te ayudamos a elegir el mejor equipo para tus necesidades
