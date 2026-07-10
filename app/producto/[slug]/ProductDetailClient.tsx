@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
+import { Monitor, MessageCircle } from 'lucide-react'
 import { QuotationModal } from '@/components/products/QuotationModal'
 import type { Product } from '@/types'
 
@@ -37,8 +38,8 @@ export function ProductDetailClient({
               priority
             />
           ) : (
-            <div className="flex items-center justify-center h-full text-8xl select-none">
-              {product.category?.icon || '🖥️'}
+            <div className="flex items-center justify-center h-full">
+              <Monitor size={64} className="text-navy-light" strokeWidth={1.25} />
             </div>
           )}
         </div>
@@ -47,7 +48,7 @@ export function ProductDetailClient({
         <div className="flex flex-col justify-center">
           {product.category && (
             <p className="text-muted-foreground text-sm mb-2 font-medium uppercase tracking-wide">
-              {product.category.icon} {product.category.name}
+              {product.category.name}
             </p>
           )}
           <h1 className="text-2xl font-bold text-white leading-tight">{product.name}</h1>
@@ -71,10 +72,10 @@ export function ProductDetailClient({
                 href={`https://wa.me/${waNumber}?text=${waMsg}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-border-subtle hover:border-accent text-white px-4 py-3 rounded-lg transition-colors text-lg"
-                aria-label="WhatsApp"
+                className="border border-border-subtle hover:border-accent text-white px-4 py-3 rounded-lg transition-colors flex items-center"
+                aria-label="Consultar por WhatsApp"
               >
-                💬
+                <MessageCircle size={20} strokeWidth={1.75} />
               </a>
             )}
           </div>

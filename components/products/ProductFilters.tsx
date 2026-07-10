@@ -53,7 +53,7 @@ export function ProductFilters({ categories, currentSlug }: Props) {
                 onClick={() => update('cat', c.slug)}
                 className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${params.get('cat') === c.slug ? 'bg-accent text-white font-medium' : 'hover:bg-navy-light/40 text-gray-300'}`}
               >
-                {c.icon} {c.name}
+                {c.name}
               </button>
             ))}
           </div>

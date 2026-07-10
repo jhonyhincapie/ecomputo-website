@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { SearchX, SlidersHorizontal } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { ProductCard } from '@/components/products/ProductCard'
 import { ProductFilters } from '@/components/products/ProductFilters'
@@ -41,6 +42,18 @@ export default async function ProductosPage({ searchParams }: Props) {
         <p className="text-gray-400 mt-1">Encuentra el equipo perfecto para ti</p>
       </div>
 
+      <details className="md:hidden mb-6 rounded-xl border border-border-subtle bg-navy-light/20 open:pb-4">
+        <summary className="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-gray-200 cursor-pointer select-none">
+          <SlidersHorizontal size={16} className="text-accent-light" strokeWidth={1.75} />
+          Filtrar y buscar
+        </summary>
+        <div className="px-4">
+          <Suspense>
+            <ProductFilters categories={(categories as Category[]) || []} />
+          </Suspense>
+        </div>
+      </details>
+
       <div className="flex gap-8">
         <div className="w-64 shrink-0 hidden md:block">
           <Suspense>
@@ -60,7 +73,7 @@ export default async function ProductosPage({ searchParams }: Props) {
             </div>
           ) : (
             <div className="text-center py-20 text-gray-500">
-              <div className="text-6xl mb-4">🔍</div>
+              <SearchX size={44} className="mx-auto mb-4 text-navy-light" strokeWidth={1.5} />
               <p className="text-lg">No hay productos en esta categoría.</p>
               <p className="text-sm mt-1">Intenta con otra búsqueda o categoría.</p>
             </div>

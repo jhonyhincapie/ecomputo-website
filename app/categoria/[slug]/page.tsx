@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import { iconForSlug } from '@/lib/categoryIcons'
 import { ProductCard } from '@/components/products/ProductCard'
 import type { Category, Product } from '@/types'
 
@@ -28,7 +29,14 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 bg-navy min-h-screen">
       <div className="flex items-center gap-4 mb-8">
-        <span className="text-5xl">{(category as Category).icon}</span>
+        {(() => {
+          const Icon = iconForSlug(slug)
+          return (
+            <div className="w-14 h-14 rounded-xl bg-navy-light border border-border-subtle flex items-center justify-center shrink-0">
+              <Icon size={26} className="text-accent-light" strokeWidth={1.75} />
+            </div>
+          )
+        })()}
         <div>
           <h1 className="text-3xl font-bold text-white">{(category as Category).name}</h1>
           <p className="text-gray-400 mt-1">
@@ -45,7 +53,6 @@ export default async function CategoryPage({ params }: Props) {
         </div>
       ) : (
         <div className="text-center py-20 text-gray-500">
-          <div className="text-6xl mb-4">{(category as Category).icon}</div>
           <p className="text-lg">No hay productos en esta categoría aún.</p>
           <p className="text-sm mt-1">Vuelve pronto, estamos actualizando el catálogo.</p>
         </div>

@@ -1,14 +1,7 @@
 import Link from 'next/link'
-import { Monitor, Laptop, Smartphone, Headphones, Package } from 'lucide-react'
+import { iconForSlug } from '@/lib/categoryIcons'
 import { supabase } from '@/lib/supabase'
 import type { Category } from '@/types'
-
-const slugIcons: Record<string, typeof Monitor> = {
-  computadores: Monitor,
-  portatiles: Laptop,
-  celulares: Smartphone,
-  accesorios: Headphones,
-}
 
 export async function CategoriesGrid() {
   const { data: categories } = await supabase
@@ -22,7 +15,7 @@ export async function CategoriesGrid() {
       <p className="text-gray-400 text-center mb-10">Encuentra exactamente lo que necesitas</p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {(categories as Category[] || []).map(cat => {
-          const Icon = slugIcons[cat.slug] || Package
+          const Icon = iconForSlug(cat.slug)
           return (
             <Link
               key={cat.id}
