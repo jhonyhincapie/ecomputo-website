@@ -8,9 +8,25 @@ import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
 const lexend = Lexend({ subsets: ['latin'], variable: '--font-heading' })
 const sourceSans = Source_Sans_3({ subsets: ['latin'], variable: '--font-body' })
 
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Comercializadora ECOMPUTO'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_SITE_NAME || 'Comercializadora ECOMPUTO',
-  description: 'Computadores, portátiles, celulares y accesorios en Medellín, Colombia',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteName,
+    template: `%s | ${siteName}`,
+  },
+  description:
+    'Computadores, portátiles, celulares y accesorios con garantía y soporte técnico en Medellín, Colombia. Cotiza por WhatsApp.',
+  openGraph: {
+    type: 'website',
+    siteName,
+    title: siteName,
+    description:
+      'Tecnología con garantía en Medellín: computadores, portátiles, celulares y accesorios. Cotiza por WhatsApp.',
+    locale: 'es_CO',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

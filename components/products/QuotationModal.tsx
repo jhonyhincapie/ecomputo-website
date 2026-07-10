@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { Mail, MessageCircle, CheckCircle2 } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -16,11 +17,13 @@ export function QuotationModal({ product, open, onClose }: Props) {
   const [channel, setChannel] = useState<'email' | 'whatsapp'>('email')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError('')
     try {
       const payload = {
         product_id: product.id,
@@ -32,30 +35,28 @@ export function QuotationModal({ product, open, onClose }: Props) {
         channel,
       }
 
-      if (channel === 'whatsapp') {
-        const res = await fetch('/api/cotizar', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        if (res.ok) {
-          // Open WhatsApp in new tab
-          const settingsRes = await fetch('/api/settings/whatsapp-number')
-          const { number } = await settingsRes.json()
-          const msg = encodeURIComponent(
-            `Hola! Me interesa cotizar: *${product.name}*\nNombre: ${form.name}\nTeléfono: ${form.phone}${form.message ? '\nMensaje: ' + form.message : ''}`
-          )
-          window.open(`https://wa.me/${number}?text=${msg}`, '_blank')
-          setSent(true)
-        }
-      } else {
-        const res = await fetch('/api/cotizar', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        if (res.ok) setSent(true)
+      const res = await fetch('/api/cotizar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      if (!res.ok) {
+        setError('No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.')
+        return
       }
+
+      if (channel === 'whatsapp') {
+        const settingsRes = await fetch('/api/settings/whatsapp-number')
+        const { number } = await settingsRes.json()
+        const msg = encodeURIComponent(
+          `Hola! Me interesa cotizar: *${product.name}*\nNombre: ${form.name}\nTeléfono: ${form.phone}${form.message ? '\nMensaje: ' + form.message : ''}`
+        )
+        window.open(`https://wa.me/${number}?text=${msg}`, '_blank')
+      }
+      setSent(true)
+    } catch {
+      setError('Error de conexión. Revisa tu internet e intenta de nuevo.')
     } finally {
       setLoading(false)
     }
@@ -63,6 +64,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
 
   const handleClose = () => {
     setSent(false)
+    setError('')
     setForm({ name: '', email: '', phone: '', message: '' })
     onClose()
   }
@@ -76,7 +78,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
 
         {sent ? (
           <div className="text-center py-8">
-            <div className="text-6xl mb-4">{channel === 'email' ? '📧' : '💬'}</div>
+            <CheckCircle2 size={48} className="mx-auto mb-4 text-accent" strokeWidth={1.5} />
             <h3 className="font-bold text-lg text-navy">¡Solicitud enviada!</h3>
             <p className="text-gray-500 mt-2 text-sm">
               {channel === 'email'
@@ -142,13 +144,21 @@ export function QuotationModal({ product, open, onClose }: Props) {
                       onChange={() => setChannel(ch)}
                       className="accent-accent"
                     />
-                    <span className="text-sm">
-                      {ch === 'email' ? '📧 Email' : '💬 WhatsApp'}
+                    <span className="text-sm inline-flex items-center gap-1.5">
+                      {ch === 'email' ? (
+                        <><Mail size={15} strokeWidth={1.75} /> Email</>
+                      ) : (
+                        <><MessageCircle size={15} strokeWidth={1.75} /> WhatsApp</>
+                      )}
                     </span>
                   </label>
                 ))}
               </div>
             </div>
+
+            {error && (
+              <p className="text-sm text-red-600" role="alert">{error}</p>
+            )}
 
             <button
               type="submit"
