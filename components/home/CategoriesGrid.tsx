@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { iconForSlug } from '@/lib/categoryIcons'
 import { supabase } from '@/lib/supabase'
+import { Reveal } from '@/components/ui/Reveal'
 import type { Category } from '@/types'
 
 export async function CategoriesGrid() {
@@ -11,22 +12,25 @@ export async function CategoriesGrid() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-16 bg-navy">
-      <h2 className="text-3xl font-bold text-white text-center mb-3">Nuestras Categorías</h2>
-      <p className="text-gray-400 text-center mb-10">Encuentra exactamente lo que necesitas</p>
+      <Reveal>
+        <h2 className="text-3xl font-bold text-white text-center mb-3">Nuestras Categorías</h2>
+        <p className="text-gray-400 text-center mb-10">Encuentra exactamente lo que necesitas</p>
+      </Reveal>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {(categories as Category[] || []).map(cat => {
+        {(categories as Category[] || []).map((cat, i) => {
           const Icon = iconForSlug(cat.slug)
           return (
-            <Link
-              key={cat.id}
-              href={`/categoria/${cat.slug}`}
-              className="cat-card rounded-xl p-6 text-center cursor-pointer text-white group"
-            >
-              <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-navy border border-border-subtle flex items-center justify-center group-hover:border-accent transition-colors">
-                <Icon size={26} className="text-accent-light" strokeWidth={1.75} />
-              </div>
-              <h3 className="font-semibold text-base">{cat.name}</h3>
-            </Link>
+            <Reveal key={cat.id} delay={i * 0.06}>
+              <Link
+                href={`/categoria/${cat.slug}`}
+                className="cat-card rounded-xl p-6 text-center cursor-pointer text-white group block h-full"
+              >
+                <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-navy border border-border-subtle flex items-center justify-center group-hover:border-accent transition-colors">
+                  <Icon size={26} className="text-accent-light" strokeWidth={1.75} />
+                </div>
+                <h3 className="font-semibold text-base">{cat.name}</h3>
+              </Link>
+            </Reveal>
           )
         })}
       </div>

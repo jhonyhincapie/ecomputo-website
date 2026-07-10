@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { ProductCard } from '@/components/products/ProductCard'
+import { Reveal } from '@/components/ui/Reveal'
 import type { Product } from '@/types'
 
 export async function FeaturedProducts() {
@@ -15,7 +16,7 @@ export async function FeaturedProducts() {
   return (
     <section className="bg-navy-deep py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-10">
+        <Reveal className="flex items-center justify-between mb-10">
           <div>
             <h2 className="text-3xl font-bold text-white">Productos Destacados</h2>
             <p className="text-gray-400 mt-1">Los más populares de nuestra tienda</p>
@@ -23,12 +24,14 @@ export async function FeaturedProducts() {
           <Link href="/productos" className="text-accent-light hover:underline font-semibold hidden sm:block">
             Ver todos →
           </Link>
-        </div>
+        </Reveal>
 
         {products && products.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {(products as Product[]).map(p => (
-              <ProductCard key={p.id} product={p} />
+            {(products as Product[]).map((p, i) => (
+              <Reveal key={p.id} delay={(i % 4) * 0.06} className="h-full">
+                <ProductCard product={p} />
+              </Reveal>
             ))}
           </div>
         ) : (
