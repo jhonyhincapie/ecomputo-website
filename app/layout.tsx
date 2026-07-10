@@ -33,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={`${lexend.variable} ${sourceSans.variable}`}>
       <body className="bg-navy min-h-screen flex flex-col font-body">
+        <div className="grain-overlay" aria-hidden />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

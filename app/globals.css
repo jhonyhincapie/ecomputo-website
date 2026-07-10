@@ -137,6 +137,32 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent);
 }
 
+/* Film grain overlay: kills the "flat AI gradient" look.
+   Fixed + pointer-events-none so it never repaints on scroll. */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Slow vertical float for layered hero elements */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.animate-float   { animation: floatY 7s ease-in-out infinite; }
+.animate-float-2 { animation: floatY 9s ease-in-out 1.2s infinite; }
+
+/* Oversized ghost type for section backdrops (editorial depth layer) */
+.ghost-type {
+  -webkit-text-stroke: 1px rgba(56, 189, 248, 0.12);
+  color: transparent;
+  user-select: none;
+}
+
 /* Legacy alias kept for compatibility */
 .cat-card {
   background: linear-gradient(180deg, rgba(18, 33, 66, 0.75) 0%, rgba(12, 26, 51, 0.9) 100%);
@@ -169,7 +195,9 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up,
-  .animate-pulse-green {
+  .animate-pulse-green,
+  .animate-float,
+  .animate-float-2 {
     animation: none;
   }
   .card-tech:hover,

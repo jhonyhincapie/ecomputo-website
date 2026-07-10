@@ -71,16 +71,16 @@ export function QuotationModal({ product, open, onClose }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-[#0c1a33] border border-accent/25 shadow-[0_0_60px_-12px_rgba(30,136,255,0.4)]">
         <DialogHeader>
-          <DialogTitle>Cotizar: {product.name}</DialogTitle>
+          <DialogTitle className="text-white">Cotizar: {product.name}</DialogTitle>
         </DialogHeader>
 
         {sent ? (
           <div className="text-center py-8">
             <CheckCircle2 size={48} className="mx-auto mb-4 text-accent" strokeWidth={1.5} />
-            <h3 className="font-bold text-lg text-navy">¡Solicitud enviada!</h3>
-            <p className="text-gray-500 mt-2 text-sm">
+            <h3 className="font-bold text-lg text-white">¡Solicitud enviada!</h3>
+            <p className="text-[#9fb1d1] mt-2 text-sm">
               {channel === 'email'
                 ? 'Te responderemos pronto a tu correo electrónico.'
                 : 'Continúa la conversación en WhatsApp.'}
@@ -95,8 +95,9 @@ export function QuotationModal({ product, open, onClose }: Props) {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label>Nombre completo *</Label>
+              <Label className="text-gray-200">Nombre completo *</Label>
               <Input
+                className="bg-navy-deep/70 border-border-subtle text-white placeholder:text-[#5a6b8f] focus:ring-accent"
                 required
                 value={form.name}
                 onChange={e => setForm({ ...form, name: e.target.value })}
@@ -104,8 +105,9 @@ export function QuotationModal({ product, open, onClose }: Props) {
               />
             </div>
             <div>
-              <Label>Email *</Label>
+              <Label className="text-gray-200">Email *</Label>
               <Input
+                className="bg-navy-deep/70 border-border-subtle text-white placeholder:text-[#5a6b8f] focus:ring-accent"
                 required
                 type="email"
                 value={form.email}
@@ -114,8 +116,9 @@ export function QuotationModal({ product, open, onClose }: Props) {
               />
             </div>
             <div>
-              <Label>Teléfono *</Label>
+              <Label className="text-gray-200">Teléfono *</Label>
               <Input
+                className="bg-navy-deep/70 border-border-subtle text-white placeholder:text-[#5a6b8f] focus:ring-accent"
                 required
                 value={form.phone}
                 onChange={e => setForm({ ...form, phone: e.target.value })}
@@ -123,8 +126,9 @@ export function QuotationModal({ product, open, onClose }: Props) {
               />
             </div>
             <div>
-              <Label>Mensaje (opcional)</Label>
+              <Label className="text-gray-200">Mensaje (opcional)</Label>
               <Textarea
+                className="bg-navy-deep/70 border-border-subtle text-white placeholder:text-[#5a6b8f] focus:ring-accent"
                 value={form.message}
                 onChange={e => setForm({ ...form, message: e.target.value })}
                 rows={3}
@@ -133,7 +137,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
             </div>
 
             <div>
-              <Label className="mb-2 block">¿Cómo quieres recibir la cotización?</Label>
+              <Label className="mb-2 block text-gray-200">¿Cómo quieres recibir la cotización?</Label>
               <div className="flex gap-6">
                 {(['email', 'whatsapp'] as const).map(ch => (
                   <label key={ch} className="flex items-center gap-2 cursor-pointer">
@@ -144,7 +148,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
                       onChange={() => setChannel(ch)}
                       className="accent-accent"
                     />
-                    <span className="text-sm inline-flex items-center gap-1.5">
+                    <span className="text-sm inline-flex items-center gap-1.5 text-gray-200">
                       {ch === 'email' ? (
                         <><Mail size={15} strokeWidth={1.75} /> Email</>
                       ) : (
@@ -157,13 +161,13 @@ export function QuotationModal({ product, open, onClose }: Props) {
             </div>
 
             {error && (
-              <p className="text-sm text-red-600" role="alert">{error}</p>
+              <p className="text-sm text-red-400" role="alert">{error}</p>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-60"
+              className="btn-electric w-full text-white font-semibold py-2.5 rounded-lg disabled:opacity-60 cursor-pointer"
             >
               {loading ? 'Enviando...' : 'Enviar solicitud'}
             </button>
