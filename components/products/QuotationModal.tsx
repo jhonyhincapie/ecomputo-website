@@ -71,7 +71,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-[#0c1a33] border border-accent/25 shadow-[0_0_60px_-12px_rgba(30,136,255,0.4)]">
+      <DialogContent className="sm:max-w-md bg-[#0c1a33] border border-accent/25 shadow-[0_0_60px_-12px_rgba(74,143,212,0.3)]">
         <DialogHeader>
           <DialogTitle className="text-white">Cotizar: {product.name}</DialogTitle>
         </DialogHeader>

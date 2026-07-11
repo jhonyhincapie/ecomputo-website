@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 /* ============================================================
-   ECOMPUTO "Electric Tech" design system
-   Palette extracted from brand logo: deep navy field, electric
-   blue, cyan glow, chrome/silver display text, circuit motifs.
+   ECOMPUTO "Electric Tech" design system - soft pass
+   Palette derived from the brand logo but desaturated for a
+   calmer, more pleasant read: steel blue accent, soft sky glow,
+   chrome/silver display text, circuit motifs.
    ============================================================ */
 
 @theme {
-  --color-navy: #071022;          /* page background (logo field) */
-  --color-navy-light: #122142;    /* raised surfaces */
-  --color-navy-deep: #040a18;     /* recessed sections */
-  --color-accent: #1e88ff;        /* electric blue (logo "e") */
-  --color-accent-dark: #1668cc;
-  --color-accent-light: #38bdf8;  /* cyan glow */
-  --color-border-subtle: #1b2d52;
-  --color-card: #0c1a33;
+  --color-navy: #1e3459;          /* page background, softened once more so the circuit texture reads */
+  --color-navy-light: #2b4470;    /* raised surfaces */
+  --color-navy-deep: #172a48;     /* recessed sections */
+  --color-accent: #4a8fd4;        /* steel blue (softened logo "e") */
+  --color-accent-dark: #3670ab;
+  --color-accent-light: #7db8e8;  /* soft sky glow */
+  --color-border-subtle: #375180;
+  --color-card: #253e66;
   --color-card-foreground: #e2e8f0;
-  --color-muted-foreground: #7c8db0;
+  --color-muted-foreground: #a7b6d8;
 }
 
 /* next/font sets --font-heading / --font-body via the .variable class on <html>;
@@ -37,10 +38,10 @@ html {
 }
 
 :root {
-  --background: #071022;
+  --background: #1e3459;
   --foreground: #e2e8f0;
-  --glow-cyan: rgba(56, 189, 248, 0.35);
-  --glow-blue: rgba(30, 136, 255, 0.4);
+  --glow-cyan: rgba(125, 184, 232, 0.22);
+  --glow-blue: rgba(74, 143, 212, 0.26);
 }
 
 body {
@@ -54,71 +55,81 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0c1a33; }
-::-webkit-scrollbar-thumb { background: #1b2d52; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #1e88ff; }
+::-webkit-scrollbar-track { background: #101e35; }
+::-webkit-scrollbar-thumb { background: #1d3050; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #4a8fd4; }
 
 /* Selection */
-::selection { background: #1e88ff; color: #ffffff; }
+::selection { background: #4a8fd4; color: #ffffff; }
 
 /* ---------- Brand utilities ---------- */
 
-/* Chrome/silver gradient display text (logo "COMPUTO" treatment) */
+/* Display text: single-tone silver white (Jhony rejected the chrome
+   gradient on headlines; class name kept for compatibility) */
 .text-chrome {
-  background: linear-gradient(180deg, #ffffff 0%, #dbe4f0 45%, #8fa3c4 55%, #e8eef7 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #e9eef6;
 }
 
-/* Electric accent text with subtle glow */
+/* Accent text with a whisper of glow */
 .text-accent-glow {
   color: var(--color-accent-light);
-  text-shadow: 0 0 24px var(--glow-cyan);
+  text-shadow: 0 0 20px var(--glow-cyan);
 }
 
-/* Primary CTA: electric gradient + glow */
+/* Primary CTA: pill with chrome-gradient border (echoes the logo's
+   metallic frame) + soft inner highlight instead of neon glow. */
 .btn-electric {
-  background: linear-gradient(135deg, #1e88ff 0%, #38bdf8 100%);
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4), 0 8px 32px -8px var(--glow-blue);
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background:
+    linear-gradient(135deg, #2b66a8 0%, #4a8fd4 100%) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(125, 184, 232, 0.25) 60%, rgba(143, 163, 196, 0.4) 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 8px 24px -10px var(--glow-blue);
   transition: box-shadow 0.25s ease, transform 0.15s ease, filter 0.25s ease;
 }
 .btn-electric:hover {
-  filter: brightness(1.08);
-  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7), 0 10px 40px -6px var(--glow-cyan);
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 10px 30px -8px var(--glow-cyan);
 }
 .btn-electric:active {
   transform: scale(0.98);
 }
 
-/* Secondary CTA: outlined, lights up on hover */
+/* Secondary CTA: glass pill with the same chrome edge, quieter fill */
 .btn-ghost-tech {
-  border: 1px solid var(--color-border-subtle);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background:
+    linear-gradient(180deg, rgba(22, 38, 63, 0.55) 0%, rgba(11, 21, 38, 0.75) 100%) padding-box,
+    linear-gradient(180deg, rgba(219, 228, 240, 0.35) 0%, rgba(125, 184, 232, 0.12) 100%) border-box;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
 }
 .btn-ghost-tech:hover {
-  border-color: rgba(56, 189, 248, 0.6);
-  box-shadow: 0 0 24px -6px var(--glow-cyan);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 0 20px -8px var(--glow-cyan);
 }
 .btn-ghost-tech:active {
   transform: scale(0.98);
 }
 
-/* Tech card: raised glass surface with glowing hover edge */
+/* Tech card: raised glass surface with a soft edge lift on hover */
 .card-tech {
-  background: linear-gradient(180deg, rgba(18, 33, 66, 0.75) 0%, rgba(12, 26, 51, 0.9) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.14);
+  background: linear-gradient(180deg, rgba(22, 38, 63, 0.7) 0%, rgba(16, 30, 53, 0.9) 100%);
+  border: 1px solid rgba(125, 184, 232, 0.12);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 .card-tech:hover {
-  border-color: rgba(56, 189, 248, 0.45);
-  box-shadow: 0 0 32px -8px var(--glow-cyan);
+  border-color: rgba(125, 184, 232, 0.35);
+  box-shadow: 0 0 28px -10px var(--glow-cyan);
   transform: translateY(-2px);
 }
 
 /* Circuit dot-grid backdrop (logo corner motif), pure CSS, no repaints */
 .circuit-grid {
-  background-image: radial-gradient(rgba(56, 189, 248, 0.14) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(125, 184, 232, 0.12) 1px, transparent 1px);
   background-size: 26px 26px;
   -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 75%);
   mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 75%);
@@ -127,14 +138,14 @@ h1, h2, h3, h4, h5, h6 {
 /* Radial spotlight behind hero content */
 .hero-spotlight {
   background:
-    radial-gradient(ellipse 60% 50% at 30% 20%, rgba(30, 136, 255, 0.16), transparent 65%),
-    radial-gradient(ellipse 50% 45% at 75% 65%, rgba(56, 189, 248, 0.08), transparent 60%);
+    radial-gradient(ellipse 60% 50% at 30% 20%, rgba(74, 143, 212, 0.13), transparent 65%),
+    radial-gradient(ellipse 50% 45% at 75% 65%, rgba(125, 184, 232, 0.07), transparent 60%);
 }
 
 /* Thin glowing divider line (logo frame motif) */
 .divider-glow {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(125, 184, 232, 0.4), transparent);
 }
 
 /* Film grain overlay: kills the "flat AI gradient" look.
@@ -148,6 +159,122 @@ h1, h2, h3, h4, h5, h6 {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ---------- Electric ambient: the page "breathes" electricity ----------
+   Two soft light fields drifting over the whole viewport, blended with
+   screen so they only brighten. Fixed layer, transform/opacity only,
+   pointer-events-none: zero scroll repaints. Very low opacity on purpose. */
+.electric-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  overflow: hidden;
+}
+.electric-ambient span {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform, opacity;
+}
+.electric-ambient span:nth-child(1) {
+  width: 55vw;
+  height: 55vw;
+  left: -15vw;
+  top: -20vh;
+  background: radial-gradient(circle, rgba(74, 143, 212, 0.45) 0%, transparent 60%);
+  opacity: 0.14;
+}
+.electric-ambient span:nth-child(2) {
+  width: 45vw;
+  height: 45vw;
+  right: -12vw;
+  bottom: -18vh;
+  background: radial-gradient(circle, rgba(125, 184, 232, 0.4) 0%, transparent 60%);
+  opacity: 0.12;
+}
+
+/* Electric arc streaks: light lines that zip across the viewport
+   every few seconds, like a current passing through the page */
+.electric-ambient i {
+  position: absolute;
+  width: 60vw;
+  height: 2.5px;
+  border-radius: 9999px;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(125, 184, 232, 0.95), rgba(255, 255, 255, 1), rgba(125, 184, 232, 0.95), transparent);
+  box-shadow: 0 0 22px 4px rgba(125, 184, 232, 0.65);
+  will-change: transform, opacity;
+}
+.electric-ambient i:nth-of-type(1) { top: 22%; rotate: -14deg; }
+.electric-ambient i:nth-of-type(2) { top: 64%; rotate: -9deg; }
+
+/* Circuit-board texture over the whole page: fine traces with solder
+   nodes, tiled, extremely low opacity. Static (no repaints). */
+.electric-ambient em {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg stroke='%237db8e8' stroke-width='1.2' fill='none'%3E%3Cpath d='M20 44h74v52h44'/%3E%3Cpath d='M212 18v64h-44'/%3E%3Cpath d='M40 214h64v-44'/%3E%3Cpath d='M196 238v-44h44'/%3E%3Cpath d='M130 130h36v-24'/%3E%3C/g%3E%3Cg fill='%237db8e8'%3E%3Ccircle cx='20' cy='44' r='3'/%3E%3Ccircle cx='138' cy='96' r='3'/%3E%3Ccircle cx='212' cy='18' r='3'/%3E%3Ccircle cx='168' cy='82' r='3'/%3E%3Ccircle cx='40' cy='214' r='3'/%3E%3Ccircle cx='104' cy='170' r='3'/%3E%3Ccircle cx='196' cy='238' r='3'/%3E%3Ccircle cx='166' cy='106' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 260px 260px;
+}
+
+/* Bright circuit layer: same traces in a lighter tone, masked to a soft
+   central field so it fades toward the edges (difuminado), pulsing like
+   current flowing through the board */
+.electric-ambient b {
+  position: absolute;
+  inset: 0;
+  opacity: 0.14;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg stroke='%23aed7f8' stroke-width='1.6' fill='none'%3E%3Cpath d='M20 44h74v52h44'/%3E%3Cpath d='M212 18v64h-44'/%3E%3Cpath d='M40 214h64v-44'/%3E%3Cpath d='M196 238v-44h44'/%3E%3Cpath d='M130 130h36v-24'/%3E%3C/g%3E%3Cg fill='%23d6ecff'%3E%3Ccircle cx='20' cy='44' r='3.5'/%3E%3Ccircle cx='138' cy='96' r='3.5'/%3E%3Ccircle cx='212' cy='18' r='3.5'/%3E%3Ccircle cx='168' cy='82' r='3.5'/%3E%3Ccircle cx='40' cy='214' r='3.5'/%3E%3Ccircle cx='104' cy='170' r='3.5'/%3E%3Ccircle cx='196' cy='238' r='3.5'/%3E%3Ccircle cx='166' cy='106' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 260px 260px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 38%, black 0%, transparent 72%);
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 38%, black 0%, transparent 72%);
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Slow drift with clearly visible "surges", like breathing current */
+  @keyframes ambientDriftA {
+    0%   { transform: translate(0, 0) scale(1); opacity: 0.12; }
+    35%  { transform: translate(8vw, 6vh) scale(1.08); opacity: 0.18; }
+    48%  { opacity: 0.32; }  /* the surge */
+    52%  { opacity: 0.16; }
+    70%  { transform: translate(3vw, 10vh) scale(1.02); opacity: 0.13; }
+    100% { transform: translate(0, 0) scale(1); opacity: 0.12; }
+  }
+  @keyframes ambientDriftB {
+    0%   { transform: translate(0, 0) scale(1); opacity: 0.1; }
+    40%  { transform: translate(-7vw, -8vh) scale(1.1); opacity: 0.16; }
+    76%  { opacity: 0.28; }  /* offset surge so both never peak together */
+    82%  { opacity: 0.12; }
+    100% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+  }
+  .electric-ambient span:nth-child(1) { animation: ambientDriftA 22s ease-in-out infinite; }
+  .electric-ambient span:nth-child(2) { animation: ambientDriftB 28s ease-in-out infinite; }
+
+  /* The streak crosses the screen in ~1.2s, then rests; offsets so the
+     two arcs never fire at the same moment */
+  @keyframes arcSweep {
+    0%   { transform: translateX(-65vw); opacity: 0; }
+    3%   { opacity: 0.85; }
+    9%   { opacity: 0.65; }
+    16%  { transform: translateX(115vw); opacity: 0; }
+    100% { transform: translateX(115vw); opacity: 0; }
+  }
+  .electric-ambient i:nth-of-type(1) { animation: arcSweep 7s linear 1.2s infinite; }
+  .electric-ambient i:nth-of-type(2) { animation: arcSweep 9.5s linear 4.8s infinite; }
+
+  /* The bright circuit "breathes": current flows, brightens, fades */
+  @keyframes circuitPulse {
+    0%, 100% { opacity: 0.08; }
+    45%      { opacity: 0.3; }
+    55%      { opacity: 0.24; }
+    62%      { opacity: 0.34; }  /* small double-flash, like a spark */
+    70%      { opacity: 0.12; }
+  }
+  .electric-ambient b { animation: circuitPulse 9s ease-in-out infinite; }
+}
+
 /* Slow vertical float for layered hero elements */
 @keyframes floatY {
   0%, 100% { transform: translateY(0); }
@@ -158,20 +285,20 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Oversized ghost type for section backdrops (editorial depth layer) */
 .ghost-type {
-  -webkit-text-stroke: 1px rgba(56, 189, 248, 0.12);
+  -webkit-text-stroke: 1px rgba(125, 184, 232, 0.1);
   color: transparent;
   user-select: none;
 }
 
 /* Legacy alias kept for compatibility */
 .cat-card {
-  background: linear-gradient(180deg, rgba(18, 33, 66, 0.75) 0%, rgba(12, 26, 51, 0.9) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.14);
+  background: linear-gradient(180deg, rgba(22, 38, 63, 0.7) 0%, rgba(16, 30, 53, 0.9) 100%);
+  border: 1px solid rgba(125, 184, 232, 0.12);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 .cat-card:hover {
-  border-color: rgba(56, 189, 248, 0.45);
-  box-shadow: 0 0 32px -8px var(--glow-cyan);
+  border-color: rgba(125, 184, 232, 0.35);
+  box-shadow: 0 0 28px -10px var(--glow-cyan);
   transform: translateY(-2px);
 }
 
@@ -199,6 +326,9 @@ h1, h2, h3, h4, h5, h6 {
   .animate-float,
   .animate-float-2 {
     animation: none;
+  }
+  .electric-ambient {
+    display: none;
   }
   .card-tech:hover,
   .cat-card:hover {

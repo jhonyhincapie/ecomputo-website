@@ -29,7 +29,7 @@ export async function HeroSection() {
 
   const s = Object.fromEntries((settings || []).map(r => [r.key, r.value || '']))
   const title = s.hero_title || 'Tecnología para tu negocio y hogar'
-  const subtitle = s.hero_subtitle || 'Los mejores equipos al mejor precio en Medellín'
+  const subtitle = s.hero_subtitle || 'Los mejores equipos al mejor precio, con envíos a toda Colombia'
   const waNumber = s.whatsapp_number || ''
   const waMsg = encodeURIComponent('Hola! Quiero información sobre sus productos.')
   const products = (featured || []) as Pick<Product, 'id' | 'name' | 'slug' | 'price' | 'image_url'>[]
@@ -47,11 +47,11 @@ export async function HeroSection() {
         ECOMPUTO
       </div>
 
-      <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center px-4 pt-14 pb-20 md:pt-20 md:pb-28">
+      <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center px-4 pt-10 pb-10 md:pt-16 md:pb-20">
         {/* Copy block: intentionally off-center, takes 7/12 */}
         <div className="lg:col-span-7">
           <span className="inline-flex items-center gap-2 bg-navy-light/60 border border-accent/30 text-accent-light text-xs font-semibold px-3.5 py-1.5 rounded-full mb-7 backdrop-blur-sm animate-fade-in-up">
-            Tecnología con garantía en Medellín
+            Tecnología con garantía en toda Colombia
           </span>
           <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold leading-[1.02] tracking-tighter animate-fade-in-up delay-100 max-w-[13ch]">
             <span className="text-chrome">{title}</span>
@@ -81,7 +81,7 @@ export async function HeroSection() {
 
         {/* Visual block 5/12: brand art with floating product cards overlapping it */}
         <div className="relative lg:col-span-5 hidden md:block animate-fade-in-up delay-200">
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-accent/20 shadow-[0_0_80px_-20px_rgba(30,136,255,0.45)] rotate-[1.5deg]">
+          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-accent/20 shadow-[0_0_80px_-20px_rgba(74,143,212,0.32)] rotate-[1.5deg]">
             <Image
               src="/logo.png"
               alt="ECOMPUTO - Tecnología, Confianza, Soluciones"

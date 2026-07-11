@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { authOptions } from '@/lib/auth'
 import { supabaseAdmin } from '@/lib/supabase'
 import { AdminSidebar } from '@/components/admin/AdminSidebar'
+import { QuotationActions } from '@/components/admin/QuotationActions'
 import type { Quotation } from '@/types'
 
 function formatDate(s: string) {
@@ -55,6 +56,7 @@ export default async function CotizacionesPage() {
                 <th className="px-4 py-3 font-medium">Teléfono</th>
                 <th className="px-4 py-3 font-medium">Canal</th>
                 <th className="px-4 py-3 font-medium">Estado</th>
+                <th className="px-4 py-3 font-medium">Seguimiento</th>
               </tr>
             </thead>
             <tbody>
@@ -88,11 +90,14 @@ export default async function CotizacionesPage() {
                       {statusLabel[q.status]}
                     </span>
                   </td>
+                  <td className="px-4 py-3">
+                    <QuotationActions id={q.id} status={q.status} />
+                  </td>
                 </tr>
               ))}
               {(!quotations || quotations.length === 0) && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-12 text-center text-gray-400">
+                  <td colSpan={7} className="px-4 py-12 text-center text-gray-400">
                     No hay cotizaciones aún.
                   </td>
                 </tr>

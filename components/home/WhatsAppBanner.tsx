@@ -13,7 +13,7 @@ export async function WhatsAppBanner() {
   const msg = encodeURIComponent('Hola! Quiero información sobre sus productos.')
 
   return (
-    <section className="relative bg-navy-deep py-20 px-4 text-white overflow-hidden">
+    <section className="relative bg-navy-deep py-12 md:py-16 px-4 text-white overflow-hidden">
       <div className="absolute inset-0 hero-spotlight pointer-events-none" aria-hidden />
       <div className="relative max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
         <Reveal className="md:col-span-7">

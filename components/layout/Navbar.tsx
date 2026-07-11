@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
@@ -10,12 +11,20 @@ const links = [
   { href: '/categoria/accesorios', label: 'Accesorios' },
 ]
 
-/* Wordmark reproduces the logo type treatment: electric "e" + chrome "COMPUTO" */
+/* Brand mark: the real logo art, cropped to its central wordmark band.
+   The logo's navy field matches the navbar background so it reads as
+   native type, not as a pasted rectangle. */
 function Wordmark() {
   return (
-    <span className="font-heading font-extrabold text-xl tracking-tight leading-none select-none">
-      <span className="text-accent-light">e</span>
-      <span className="text-chrome">COMPUTO</span>
+    <span className="relative block w-48 h-11 overflow-hidden select-none">
+      <Image
+        src="/logo.png"
+        alt="ECOMPUTO"
+        fill
+        sizes="192px"
+        className="object-cover object-[center_44%] scale-[1.12]"
+        priority
+      />
     </span>
   )
 }

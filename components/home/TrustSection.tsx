@@ -26,12 +26,12 @@ const items = [
 
 export function TrustSection() {
   return (
-    <section className="bg-navy-deep py-14 px-4">
-      <div className="divider-glow mb-14 -mt-14" />
+    <section className="bg-navy-deep py-10 md:py-14 px-4">
+      <div className="divider-glow mb-10 -mt-10 md:mb-14 md:-mt-14" />
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {items.map((item, i) => (
           <Reveal key={item.title} delay={i * 0.06}>
-            <div className="w-10 h-10 rounded-lg bg-navy-light border border-accent/25 mb-3 flex items-center justify-center shadow-[0_0_16px_-6px_rgba(56,189,248,0.4)]">
+            <div className="w-10 h-10 rounded-lg bg-navy-light border border-accent/25 mb-3 flex items-center justify-center shadow-[0_0_16px_-6px_rgba(125,184,232,0.3)]">
               <item.icon size={20} className="text-accent-light" strokeWidth={1.75} />
             </div>
             <h3 className="text-white font-semibold text-sm mb-1">{item.title}</h3>

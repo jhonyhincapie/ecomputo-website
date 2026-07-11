@@ -67,3 +67,33 @@ export async function sendQuotationEmails(data: QuotationData) {
     console.error('Failed to send admin email:', adminResult.reason)
   }
 }
+
+/** Follow-up email sent manually from the admin panel (seguimiento). */
+export async function sendFollowUpEmail(data: QuotationData): Promise<{ ok: boolean; error?: string }> {
+  const { product_name, customer_name, customer_email, customer_phone } = data
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: customer_email,
+    subject: `Tu cotización de ${product_name} — ECOMPUTO`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: #1e3459; padding: 24px; border-radius: 8px 8px 0 0;">
+          <h1 style="color: #7db8e8; margin: 0; font-size: 24px;">ECOMPUTO</h1>
+          <p style="color: #a7b6d8; margin: 4px 0 0;">TECNOLOGÍA • CONFIANZA • SOLUCIONES</p>
+        </div>
+        <div style="background: #f9fafb; padding: 32px; border: 1px solid #e5e7eb; border-radius: 0 0 8px 8px;">
+          <h2 style="color: #1e3459; margin: 0 0 16px;">¡Hola, ${customer_name}!</h2>
+          <p style="color: #374151;">Te escribimos para dar seguimiento a tu cotización de <strong>${product_name}</strong>.</p>
+          <p style="color: #374151;">Seguimos atentos a ayudarte con tu compra. Puedes respondernos por este correo o escribirnos directamente al WhatsApp para resolver cualquier duda sobre precio, disponibilidad o garantía.</p>
+          <p style="color: #374151;">Si prefieres, también te contactamos al <strong>${customer_phone}</strong>.</p>
+          <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
+          <p style="color: #9ca3af; font-size: 14px; margin: 0;">Comercializadora ECOMPUTO — Calle 50 N° 65-50 Local 121, C.C. Contemporáneo, Medellín</p>
+        </div>
+      </div>
+    `,
+  })
+
+  if (error) return { ok: false, error: error.message }
+  return { ok: true }
+}
