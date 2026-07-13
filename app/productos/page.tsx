@@ -22,6 +22,12 @@ export default async function ProductosPage({ searchParams }: Props) {
 
   let products = (allProducts as Product[]) || []
 
+  /* Product count per category (before filtering) for the sidebar */
+  const counts: Record<string, number> = { all: products.length }
+  for (const p of products) {
+    if (p.category?.slug) counts[p.category.slug] = (counts[p.category.slug] || 0) + 1
+  }
+
   if (q) {
     products = products.filter(p =>
       p.name.toLowerCase().includes(q.toLowerCase())
@@ -51,7 +57,7 @@ export default async function ProductosPage({ searchParams }: Props) {
         </summary>
         <div className="px-4">
           <Suspense>
-            <ProductFilters categories={(categories as Category[]) || []} />
+            <ProductFilters categories={(categories as Category[]) || []} counts={counts} />
           </Suspense>
         </div>
       </details>
@@ -59,7 +65,7 @@ export default async function ProductosPage({ searchParams }: Props) {
       <div className="flex gap-8">
         <div className="w-64 shrink-0 hidden md:block">
           <Suspense>
-            <ProductFilters categories={(categories as Category[]) || []} />
+            <ProductFilters categories={(categories as Category[]) || []} counts={counts} />
           </Suspense>
         </div>
 

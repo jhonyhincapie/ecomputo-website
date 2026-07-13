@@ -1,5 +1,4 @@
-import { HeroSection } from '@/components/home/HeroSection'
-import { CategoriesGrid } from '@/components/home/CategoriesGrid'
+import { CommerceHeroSection } from '@/components/home/CommerceHeroSection'
 import { FeaturedProducts } from '@/components/home/FeaturedProducts'
 import { TrustSection } from '@/components/home/TrustSection'
 import { WhatsAppBanner } from '@/components/home/WhatsAppBanner'
@@ -7,8 +6,7 @@ import { WhatsAppBanner } from '@/components/home/WhatsAppBanner'
 export default function Home() {
   return (
     <>
-      <HeroSection />
-      <CategoriesGrid />
+      <CommerceHeroSection />
       <FeaturedProducts />
       <TrustSection />
       <WhatsAppBanner />

@@ -49,10 +49,25 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound()
 
+  /* Related products: same category, newest first, excluding this one */
+  let related: Product[] = []
+  if (product.category_id) {
+    const { data } = await supabase
+      .from('products')
+      .select('*, category:categories(id, name, slug, icon, order_index)')
+      .eq('category_id', product.category_id)
+      .eq('is_active', true)
+      .neq('id', product.id)
+      .order('created_at', { ascending: false })
+      .limit(4)
+    related = (data as Product[]) || []
+  }
+
   return (
     <ProductDetailClient
       product={product as Product}
       waNumber={waSettings?.value || ''}
+      related={related}
     />
   )
 }

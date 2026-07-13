@@ -16,6 +16,16 @@ export interface Product {
   description: string | null
   specs: Record<string, string>
   image_url: string | null
+  /** Fotos adicionales para la galería (image_url es la principal) */
+  images: string[]
+  /** Características destacadas mostradas con checkmarks */
+  features: string[]
+  /** Colores disponibles del producto */
+  colors: string[]
+  /** Unidades disponibles; null = disponible sin control de stock */
+  stock: number | null
+  /** Calificación 0-5 mostrada en la ficha (opcional) */
+  rating: number | null
   is_featured: boolean
   is_active: boolean
   created_at: string

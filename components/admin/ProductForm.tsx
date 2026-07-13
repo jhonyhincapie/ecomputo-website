@@ -35,8 +35,10 @@ interface Props {
 export function ProductForm({ categories, product }: Props) {
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
+  const galleryRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [uploadingGallery, setUploadingGallery] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({
     name: product?.name || '',
@@ -45,43 +47,74 @@ export function ProductForm({ categories, product }: Props) {
     price: product?.price?.toString() || '',
     description: product?.description || '',
     image_url: product?.image_url || '',
+    stock: product?.stock?.toString() ?? '',
+    rating: product?.rating?.toString() ?? '',
     is_featured: product?.is_featured ?? false,
     is_active: product?.is_active ?? true,
   })
   const [specs, setSpecs] = useState<{ key: string; val: string }[]>(
     Object.entries(product?.specs || {}).map(([key, val]) => ({ key, val: val as string }))
   )
+  const [gallery, setGallery] = useState<string[]>(product?.images || [])
+  const [features, setFeatures] = useState<string[]>(product?.features || [])
+  const [colors, setColors] = useState<string[]>(product?.colors || [])
 
   const addSpec = () => setSpecs([...specs, { key: '', val: '' }])
   const removeSpec = (i: number) => setSpecs(specs.filter((_, idx) => idx !== i))
   const updateSpec = (i: number, field: 'key' | 'val', value: string) =>
     setSpecs(specs.map((s, idx) => (idx === i ? { ...s, [field]: value } : s)))
 
-  const handleUpload = async (file: File) => {
+  /* Generic list helpers for features / colors */
+  const listOps = (list: string[], set: (v: string[]) => void) => ({
+    add: () => set([...list, '']),
+    remove: (i: number) => set(list.filter((_, idx) => idx !== i)),
+    update: (i: number, value: string) => set(list.map((v, idx) => (idx === i ? value : v))),
+  })
+  const featOps = listOps(features, setFeatures)
+  const colorOps = listOps(colors, setColors)
+
+  const uploadImage = async (file: File): Promise<string | null> => {
     setError('')
     if (!file.type.startsWith('image/')) {
       setError('El archivo debe ser una imagen (JPG, PNG o WebP).')
-      return
+      return null
     }
     if (file.size > 5 * 1024 * 1024) {
       setError('La imagen supera 5MB. Usa una más liviana.')
-      return
+      return null
     }
+    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
+    const path = `products/${Date.now()}-${Math.random().toString(36).slice(2, 7)}-${slugify(form.name || 'producto')}.${ext}`
+    const { error: upErr } = await supabase.storage
+      .from('product-images')
+      .upload(path, file, { cacheControl: '3600', upsert: false })
+    if (upErr) {
+      setError(`No se pudo subir la imagen: ${upErr.message}`)
+      return null
+    }
+    const { data } = supabase.storage.from('product-images').getPublicUrl(path)
+    return data.publicUrl
+  }
+
+  const handleUpload = async (file: File) => {
     setUploading(true)
     try {
-      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
-      const path = `products/${Date.now()}-${slugify(form.name || 'producto')}.${ext}`
-      const { error: upErr } = await supabase.storage
-        .from('product-images')
-        .upload(path, file, { cacheControl: '3600', upsert: false })
-      if (upErr) {
-        setError(`No se pudo subir la imagen: ${upErr.message}`)
-        return
-      }
-      const { data } = supabase.storage.from('product-images').getPublicUrl(path)
-      setForm(f => ({ ...f, image_url: data.publicUrl }))
+      const url = await uploadImage(file)
+      if (url) setForm(f => ({ ...f, image_url: url }))
     } finally {
       setUploading(false)
+    }
+  }
+
+  const handleGalleryUpload = async (files: File[]) => {
+    setUploadingGallery(true)
+    try {
+      for (const file of files) {
+        const url = await uploadImage(file)
+        if (url) setGallery(g => [...g, url])
+      }
+    } finally {
+      setUploadingGallery(false)
     }
   }
 
@@ -99,6 +132,11 @@ export function ProductForm({ categories, product }: Props) {
         price: parseFloat(form.price),
         description: form.description || null,
         image_url: form.image_url || null,
+        images: gallery,
+        features: features.map(f => f.trim()).filter(Boolean),
+        colors: colors.map(c => c.trim()).filter(Boolean),
+        stock: form.stock === '' ? null : Math.max(0, parseInt(form.stock, 10) || 0),
+        rating: form.rating === '' ? null : Math.min(5, Math.max(0, parseFloat(form.rating) || 0)),
         is_featured: form.is_featured,
         is_active: form.is_active,
         specs: Object.fromEntries(
@@ -249,6 +287,48 @@ export function ProductForm({ categories, product }: Props) {
         </div>
 
         <div>
+          <Label>Galería de fotos adicionales</Label>
+          <input
+            ref={galleryRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={e => {
+              const files = Array.from(e.target.files || [])
+              if (files.length) handleGalleryUpload(files)
+              e.target.value = ''
+            }}
+          />
+          <div className="flex flex-wrap gap-3">
+            {gallery.map((img, i) => (
+              <div key={img + i} className="relative w-20 h-20 rounded-lg border border-gray-200 bg-gray-50 overflow-hidden group">
+                <Image src={img} alt={`Foto ${i + 2}`} fill sizes="80px" className="object-contain p-1" />
+                <button
+                  type="button"
+                  onClick={() => setGallery(g => g.filter((_, idx) => idx !== i))}
+                  className="absolute top-0.5 right-0.5 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="Quitar foto"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => galleryRef.current?.click()}
+              disabled={uploadingGallery}
+              className="w-20 h-20 border-2 border-dashed border-gray-300 hover:border-navy/50 rounded-lg flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-navy transition-colors disabled:opacity-50"
+            >
+              {uploadingGallery ? <Loader2 size={20} className="animate-spin" /> : <ImagePlus size={20} />}
+            </button>
+          </div>
+          <p className="text-xs text-gray-400 mt-2">
+            La foto principal va arriba; estas se muestran como miniaturas en la página del producto.
+          </p>
+        </div>
+
+        <div>
           <div className="flex items-center justify-between mb-3">
             <Label className="mb-0">Especificaciones técnicas</Label>
             <button
@@ -283,6 +363,99 @@ export function ProductForm({ categories, product }: Props) {
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Stock (unidades)</Label>
+            <Input
+              type="number"
+              min="0"
+              value={form.stock}
+              onChange={e => setForm({ ...form, stock: e.target.value })}
+              placeholder="Vacío = disponible"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Vacío = disponible sin control. 1-5 muestra &ldquo;Pocas unidades&rdquo;, 0 muestra &ldquo;Agotado&rdquo;.
+            </p>
+          </div>
+          <div>
+            <Label>Calificación (0 a 5)</Label>
+            <Input
+              type="number"
+              min="0"
+              max="5"
+              step="0.1"
+              value={form.rating}
+              onChange={e => setForm({ ...form, rating: e.target.value })}
+              placeholder="Ej: 4.5"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Opcional. Se muestra con estrellas en la ficha del producto.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <Label className="mb-0">Características destacadas</Label>
+            <button type="button" onClick={featOps.add} className="text-navy text-sm font-medium hover:underline">
+              + Agregar
+            </button>
+          </div>
+          <div className="space-y-2">
+            {features.map((f, i) => (
+              <div key={i} className="flex gap-2">
+                <Input
+                  placeholder="Ej: Pantalla OLED de 14 pulgadas"
+                  value={f}
+                  onChange={e => featOps.update(i, e.target.value)}
+                  className="flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => featOps.remove(i)}
+                  className="text-gray-400 hover:text-red-500 px-2 transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            {features.length === 0 && (
+              <p className="text-xs text-gray-400">Se muestran con checkmarks en la ficha del producto.</p>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <Label className="mb-0">Colores disponibles</Label>
+            <button type="button" onClick={colorOps.add} className="text-navy text-sm font-medium hover:underline">
+              + Agregar
+            </button>
+          </div>
+          <div className="space-y-2">
+            {colors.map((c, i) => (
+              <div key={i} className="flex gap-2">
+                <Input
+                  placeholder="Ej: Gris grafito"
+                  value={c}
+                  onChange={e => colorOps.update(i, e.target.value)}
+                  className="flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => colorOps.remove(i)}
+                  className="text-gray-400 hover:text-red-500 px-2 transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            {colors.length === 0 && (
+              <p className="text-xs text-gray-400">El cliente elige el color y viaja en su solicitud de cotización.</p>
+            )}
           </div>
         </div>
 

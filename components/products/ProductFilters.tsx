@@ -1,16 +1,20 @@
 'use client'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import { LayoutGrid } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { iconForSlug } from '@/lib/categoryIcons'
 import { useCallback, useEffect, useRef } from 'react'
 import type { Category } from '@/types'
 
 interface Props {
   categories: Category[]
   currentSlug?: string
+  /** Product count per category slug; total under "all" */
+  counts?: Record<string, number>
 }
 
-export function ProductFilters({ categories, currentSlug }: Props) {
+export function ProductFilters({ categories, currentSlug, counts }: Props) {
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
@@ -56,19 +60,35 @@ export function ProductFilters({ categories, currentSlug }: Props) {
           <div className="space-y-1">
             <button
               onClick={() => update('cat', '')}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!params.get('cat') ? 'bg-accent text-white font-medium' : 'hover:bg-navy-light/40 text-gray-300'}`}
+              className={`w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-lg text-sm transition-all duration-300 ${!params.get('cat') ? 'bg-gradient-to-r from-accent to-accent-dark text-white font-medium shadow-[0_4px_16px_-6px_rgba(74,143,212,0.55)]' : 'hover:bg-navy-light/40 text-gray-300'}`}
             >
-              Todas las categorías
+              <LayoutGrid size={15} strokeWidth={1.75} className="shrink-0" />
+              <span className="flex-1">Todas las categorías</span>
+              {counts && (
+                <span className={`text-xs tabular-nums ${!params.get('cat') ? 'text-white/80' : 'text-[#5a6b8f]'}`}>
+                  {counts.all ?? 0}
+                </span>
+              )}
             </button>
-            {categories.map(c => (
-              <button
-                key={c.id}
-                onClick={() => update('cat', c.slug)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${params.get('cat') === c.slug ? 'bg-accent text-white font-medium' : 'hover:bg-navy-light/40 text-gray-300'}`}
-              >
-                {c.name}
-              </button>
-            ))}
+            {categories.map(c => {
+              const Icon = iconForSlug(c.slug)
+              const active = params.get('cat') === c.slug
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => update('cat', c.slug)}
+                  className={`w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-lg text-sm transition-all duration-300 ${active ? 'bg-gradient-to-r from-accent to-accent-dark text-white font-medium shadow-[0_4px_16px_-6px_rgba(74,143,212,0.55)]' : 'hover:bg-navy-light/40 text-gray-300'}`}
+                >
+                  <Icon size={15} strokeWidth={1.75} className="shrink-0" />
+                  <span className="flex-1 truncate">{c.name}</span>
+                  {counts && (
+                    <span className={`text-xs tabular-nums ${active ? 'text-white/80' : 'text-[#5a6b8f]'}`}>
+                      {counts[c.slug] ?? 0}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
           </div>
         </div>
       )}

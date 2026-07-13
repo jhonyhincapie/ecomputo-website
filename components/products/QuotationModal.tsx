@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Mail, MessageCircle, CheckCircle2 } from 'lucide-react'
+import { Mail, MessageCircle, CheckCircle2, Loader2 } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -11,14 +11,16 @@ interface Props {
   product: Product
   open: boolean
   onClose: () => void
+  /** Seeds the message field, e.g. with the chosen quantity */
+  initialMessage?: string
 }
 
-export function QuotationModal({ product, open, onClose }: Props) {
+export function QuotationModal({ product, open, onClose, initialMessage = '' }: Props) {
   const [channel, setChannel] = useState<'email' | 'whatsapp'>('email')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: initialMessage })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -65,7 +67,7 @@ export function QuotationModal({ product, open, onClose }: Props) {
   const handleClose = () => {
     setSent(false)
     setError('')
-    setForm({ name: '', email: '', phone: '', message: '' })
+    setForm({ name: '', email: '', phone: '', message: initialMessage })
     onClose()
   }
 
@@ -167,8 +169,9 @@ export function QuotationModal({ product, open, onClose }: Props) {
             <button
               type="submit"
               disabled={loading}
-              className="btn-electric w-full text-white font-semibold py-2.5 rounded-lg disabled:opacity-60 cursor-pointer"
+              className="btn-electric w-full inline-flex items-center justify-center gap-2 text-white font-semibold py-2.5 rounded-lg disabled:opacity-60 cursor-pointer"
             >
+              {loading && <Loader2 size={16} className="animate-spin" />}
               {loading ? 'Enviando...' : 'Enviar solicitud'}
             </button>
           </form>
