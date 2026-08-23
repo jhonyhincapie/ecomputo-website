@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
+import { ProductImage } from '@/components/ui/ProductImage'
 import { iconForSlug } from '@/lib/categoryIcons'
 import { supabase } from '@/lib/supabase'
 import { Reveal } from '@/components/ui/Reveal'
@@ -48,23 +48,22 @@ export async function CategoriesGrid() {
                 {/* Reference image band: real product photo when the catalog
                     has one, otherwise a soft brand field with the icon */}
                 <div className="relative aspect-[16/10] bg-navy-deep overflow-hidden">
-                  {cover ? (
-                    <Image
-                      src={cover}
-                      alt={cat.name}
-                      fill
-                      sizes="(min-width: 1024px) 25vw, 50vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(ellipse_80%_80%_at_50%_-10%,rgba(74,143,212,0.22),transparent_65%)]">
-                      <Icon
-                        size={44}
-                        className="text-accent-light/80 group-hover:text-accent-light group-hover:scale-110 transition-all duration-300"
-                        strokeWidth={1.25}
-                      />
-                    </div>
-                  )}
+                  <ProductImage
+                    src={cover}
+                    alt={cat.name}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    fallback={
+                      <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(ellipse_80%_80%_at_50%_-10%,rgba(74,143,212,0.22),transparent_65%)]">
+                        <Icon
+                          size={44}
+                          className="text-accent-light/80 group-hover:text-accent-light group-hover:scale-110 transition-all duration-300"
+                          strokeWidth={1.25}
+                        />
+                      </div>
+                    }
+                  />
                 </div>
                 <div className="flex items-center justify-between gap-2 px-4 py-3.5">
                   <h3 className="font-bold text-sm md:text-base truncate">{cat.name}</h3>

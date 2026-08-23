@@ -26,10 +26,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: product.name,
     description,
+    alternates: { canonical: `/producto/${slug}` },
     openGraph: {
+      type: 'website',
       title: product.name,
       description,
+      url: `/producto/${slug}`,
+      /* Si el producto no tiene foto, se omite `images` y Next cae a la
+         imagen de marca de app/opengraph-image.tsx. Antes quedaba sin
+         ninguna, y el enlace llegaba pelado a WhatsApp. */
       images: product.image_url ? [{ url: product.image_url }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.name,
+      description,
     },
   }
 }

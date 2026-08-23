@@ -7,7 +7,6 @@ import {
   ChevronRight,
   Minus,
   MessageCircle,
-  Monitor,
   Plus,
   RotateCcw,
   ShieldCheck,
@@ -16,6 +15,7 @@ import {
 } from 'lucide-react'
 import { QuotationModal } from '@/components/products/QuotationModal'
 import { ProductCard } from '@/components/products/ProductCard'
+import { ProductImage } from '@/components/ui/ProductImage'
 import type { Product } from '@/types'
 
 function formatCOP(n: number) {
@@ -91,21 +91,16 @@ export function ProductDetailClient({
         {/* Gallery */}
         <div>
           <div className="card-tech relative h-80 rounded-2xl overflow-hidden">
-            {gallery.length > 0 ? (
-              <Image
-                key={gallery[activeImage]}
-                src={gallery[activeImage]}
-                alt={product.name}
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-contain p-6"
-                priority
-              />
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <Monitor size={64} className="text-navy-light" strokeWidth={1.25} />
-              </div>
-            )}
+            <ProductImage
+              key={gallery[activeImage]}
+              src={gallery.length > 0 ? gallery[activeImage] : null}
+              alt={product.name}
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-contain p-6"
+              priority
+              fallbackLabel={product.name}
+            />
           </div>
           {gallery.length > 1 && (
             <div className="flex gap-2 mt-3">

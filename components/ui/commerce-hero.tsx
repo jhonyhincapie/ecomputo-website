@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
+import { ProductImage } from '@/components/ui/ProductImage'
 import { motion } from 'framer-motion'
 import { iconForSlug } from '@/lib/categoryIcons'
 
@@ -131,25 +131,25 @@ export function CommerceHero({ title, subtitle, waHref, categories }: CommerceHe
                   {category.title}
                 </h2>
                 <div className="absolute inset-0 flex items-center justify-center p-6 pt-16">
-                  {category.image ? (
-                    // White plate: product photos usually ship on white, so
-                    // frame them instead of letting the box float on navy
-                    <div className="relative w-full max-w-[190px] aspect-square bg-white rounded-2xl overflow-hidden border border-accent/25 shadow-[0_18px_40px_-18px_rgba(10,20,40,0.8)] group-hover:scale-105 transition-transform duration-500">
-                      <Image
-                        src={category.image}
-                        alt={category.title}
-                        fill
-                        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 40vw, 60vw"
-                        className="object-contain p-3"
+                  {/* White plate: product photos usually ship on white, so
+                      frame them instead of letting the box float on navy.
+                      El marco solo se dibuja si la foto carga: si el origen
+                      falla, cae al ícono en vez de dejar una placa vacía. */}
+                  <ProductImage
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 40vw, 60vw"
+                    className="object-contain p-3"
+                    frameClassName="relative w-full max-w-[190px] aspect-square bg-white rounded-2xl overflow-hidden border border-accent/25 shadow-[0_18px_40px_-18px_rgba(10,20,40,0.8)] group-hover:scale-105 transition-transform duration-500"
+                    fallback={
+                      <Icon
+                        size={72}
+                        strokeWidth={1.1}
+                        className="text-accent-light/70 group-hover:text-accent-light group-hover:scale-110 transition-all duration-500"
                       />
-                    </div>
-                  ) : (
-                    <Icon
-                      size={72}
-                      strokeWidth={1.1}
-                      className="text-accent-light/70 group-hover:text-accent-light group-hover:scale-110 transition-all duration-500"
-                    />
-                  )}
+                    }
+                  />
                 </div>
                 <div className="absolute bottom-0 right-0 w-16 h-16 md:w-20 md:h-20 bg-navy-deep/95 backdrop-blur-sm rounded-tl-xl flex items-center justify-center z-10 border-l border-t border-accent/15">
                   <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3 w-10 h-10 md:w-12 md:h-12 bg-navy-light rounded-full flex items-center justify-center text-accent-light group-hover:bg-accent group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-lg">

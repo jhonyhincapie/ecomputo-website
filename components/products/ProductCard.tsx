@@ -2,9 +2,9 @@
 
 import { useRef, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { Eye, MessageCircle, Monitor } from 'lucide-react'
+import { Eye, MessageCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { ProductImage } from '@/components/ui/ProductImage'
 import { daysSince } from '@/lib/utils'
 import type { Product } from '@/types'
 
@@ -66,19 +66,14 @@ export function ProductCard({ product }: Props) {
         }}
       >
         <Link href={`/producto/${product.slug}`} className="block relative h-48 bg-navy-deep">
-          {product.image_url ? (
-            <Image
-              src={product.image_url}
-              alt={product.name}
-              fill
-              sizes="(min-width: 1024px) 33vw, 50vw"
-              className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <Monitor size={40} className="text-navy-light" strokeWidth={1.5} />
-            </div>
-          )}
+          <ProductImage
+            src={product.image_url}
+            alt={product.name}
+            fill
+            sizes="(min-width: 1024px) 33vw, 50vw"
+            className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+            fallbackLabel={product.name}
+          />
           {isNew && (
             <Badge className="absolute top-2 left-2 bg-gradient-to-r from-accent to-accent-light text-white shadow-[0_0_12px_-2px_rgba(125,184,232,0.45)]">NUEVO</Badge>
           )}
