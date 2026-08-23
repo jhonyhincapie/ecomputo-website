@@ -9,7 +9,15 @@ const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-he
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-body' })
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Comercializadora ECOMPUTO'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+/* metadataBase decide el dominio de canonical y og:image. Si solo se mira
+   NEXT_PUBLIC_SITE_URL y esa variable no está puesta en Vercel, las URLs
+   absolutas salen apuntando a localhost y la vista previa de WhatsApp no
+   carga. VERCEL_PROJECT_PRODUCTION_URL la inyecta Vercel en cada build. */
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'http://localhost:3000')
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
