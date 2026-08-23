@@ -65,24 +65,47 @@ export default function CategoriasPage() {
       .then(({ data }) => setCats((data as Category[]) || []))
   }, [status])
 
+  /* Las escrituras pasan por el servidor: allí se valida la sesión y se
+     usa service_role. El navegador ya no escribe en la base. */
   const add = async () => {
     if (!form.name.trim()) return
     setSaving(true)
-    await supabase.from('categories').insert({
-      name: form.name,
-      slug: slugify(form.name),
-      icon: emojiForName(form.name),
-      order_index: parseInt(form.order_index) || 0,
-    })
-    const { data } = await supabase.from('categories').select('*').order('order_index')
-    setCats((data as Category[]) || [])
-    setForm({ name: '', order_index: '0' })
-    setSaving(false)
+    try {
+      const res = await fetch('/api/admin/categorias', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          slug: slugify(form.name),
+          icon: emojiForName(form.name),
+          order_index: parseInt(form.order_index) || 0,
+        }),
+      })
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: '' }))
+        alert(error || 'No se pudo crear la categoría')
+        return
+      }
+      const { data } = await supabase.from('categories').select('*').order('order_index')
+      setCats((data as Category[]) || [])
+      setForm({ name: '', order_index: '0' })
+    } finally {
+      setSaving(false)
+    }
   }
 
   const remove = async (id: string) => {
     if (!confirm('¿Eliminar esta categoría?')) return
-    await supabase.from('categories').delete().eq('id', id)
+    const res = await fetch('/api/admin/categorias', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    })
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: '' }))
+      alert(error || 'No se pudo eliminar la categoría')
+      return
+    }
     setCats(cats.filter(c => c.id !== id))
   }
 

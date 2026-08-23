@@ -56,20 +56,31 @@ export default function ConfiguracionPage() {
       })
   }, [status])
 
+  /* Se guarda por el servidor, en una sola llamada. Antes eran cinco
+     upserts desde el navegador: si uno fallaba, los ajustes quedaban a
+     medias sin que nadie se enterara. */
   const save = async () => {
     setSaving(true)
-    await Promise.all(
-      SETTINGS_KEYS.map(k =>
-        supabase.from('settings').upsert({
-          key: k,
-          value: settings[k] || '',
-          updated_at: new Date().toISOString(),
-        })
-      )
-    )
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2500)
-    setSaving(false)
+    try {
+      const res = await fetch('/api/admin/configuracion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          settings: Object.fromEntries(
+            SETTINGS_KEYS.map(k => [k, settings[k] || ''])
+          ),
+        }),
+      })
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: '' }))
+        alert(error || 'No se pudieron guardar los ajustes')
+        return
+      }
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2500)
+    } finally {
+      setSaving(false)
+    }
   }
 
   if (status === 'loading' || !session) return null

@@ -144,12 +144,18 @@ export function ProductForm({ categories, product }: Props) {
         ),
       }
 
-      const { error: dbErr } = product
-        ? await supabase.from('products').update(payload).eq('id', product.id)
-        : await supabase.from('products').insert(payload)
+      /* Guardado por el servidor: valida la sesión, revalida precio y
+         existencias, y escribe con service_role. El navegador ya no
+         escribe en la base. */
+      const res = await fetch('/api/admin/productos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: product?.id ?? null, product: payload }),
+      })
 
-      if (dbErr) {
-        setError(`No se pudo guardar: ${dbErr.message}`)
+      if (!res.ok) {
+        const { error: apiErr } = await res.json().catch(() => ({ error: '' }))
+        setError(`No se pudo guardar: ${apiErr || res.statusText}`)
         return
       }
 
